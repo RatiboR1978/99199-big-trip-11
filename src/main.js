@@ -315,13 +315,13 @@ siteTripEventsList.classList.add(`trip-events__list`);
 siteTripEvents.appendChild(siteTripDays);
 siteTripDays.appendChild(siteTripDaysItem);
 siteTripDaysItem.appendChild(siteTripEventsList);
-render(siteTripMain, createTripInfo(), `afterbegin`);
-render(siteTripControls[0], createTripControls(), `afterend`);
-render(siteTripControls[1], createTripFilters(), `afterend`);
-render(siteTripEvents, createTripSort(), `afterbegin`);
-render(siteTripDaysItem, createDayInfo(), `afterbegin`);
-render(siteTripEventsList, createTripEventEdit(), `afterbegin`);
+render(siteTripMain, ComponentTripInfo(), `afterbegin`);
+render(siteTripControls[0], ComponentTripControls(), `afterend`);
+render(siteTripControls[1], ComponentTripFilters(), `afterend`);
+render(siteTripEvents, ComponentTripSort(), `afterbegin`);
+render(siteTripDaysItem, ComponentDayInfo(), `afterbegin`);
+render(siteTripEventsList, ComponentTripEventEdit(), `afterbegin`);
 
 for (let i = 0; i < numberPoints; i++) {
-  render(siteTripEventsList, createTripEvent(), `beforeend`);
+  render(siteTripEventsList, ComponentTripEvent(), `beforeend`);
 }
