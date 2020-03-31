@@ -1,6 +1,6 @@
 "use strict";
 
-const createTripInfo = () => {
+const ComponentTripInfo = () => {
   return `<section class="trip-main__trip-info  trip-info">
       <div class="trip-info__main">
         <h1 class="trip-info__title">Amsterdam &mdash; Chamonix &mdash; Geneva</h1>
@@ -14,14 +14,14 @@ const createTripInfo = () => {
     </section>`;
 };
 
-const createTripControls = () => {
+const ComponentTripControls = () => {
   return `<nav class="trip-controls__trip-tabs  trip-tabs">
       <a class="trip-tabs__btn  trip-tabs__btn--active" href="#">Table</a>
       <a class="trip-tabs__btn" href="#">Stats</a>
     </nav>`;
 };
 
-const createTripFilters = () => {
+const ComponentTripFilters = () => {
   return `<form class="trip-filters" action="#" method="get">
     <div class="trip-filters__filter">
       <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything" checked>
@@ -42,7 +42,7 @@ const createTripFilters = () => {
   </form>`;
 };
 
-const createTripSort = () => {
+const ComponentTripSort = () => {
   return `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
     <span class="trip-sort__item  trip-sort__item--day">Day</span>
 
@@ -75,7 +75,7 @@ const createTripSort = () => {
   </form>`;
 };
 
-const createTripEvent = () => {
+const ComponentTripEvent = () => {
   return `
     <li class="trip-events__item">
       <div class="event">
@@ -113,7 +113,7 @@ const createTripEvent = () => {
     </li>`;
 };
 
-const createTripEventEdit = () => {
+const ComponentTripEventEdit = () => {
   return `<li class="trip-events__item">
   <form class="event  event--edit" action="#" method="post">
     <header class="event__header">
@@ -289,7 +289,7 @@ const createTripEventEdit = () => {
 </li>`;
 };
 
-const createDayInfo = () => {
+const ComponentDayInfo = () => {
   return `<div class="day__info">
     <span class="day__counter">1</span>
     <time class="day__date" datetime="2019-03-18">MAR 18</time>
@@ -306,6 +306,7 @@ const siteTripEvents = document.querySelector(`.trip-events`);
 const siteTripDays = document.createElement(`ul`);
 const siteTripDaysItem = document.createElement(`li`);
 const siteTripEventsList = document.createElement(`ul`);
+let numberPoints = 3;
 
 siteTripDays.classList.add(`trip-days`);
 siteTripDaysItem.classList.add(`trip-days__item`);
@@ -321,6 +322,6 @@ render(siteTripEvents, createTripSort(), `afterbegin`);
 render(siteTripDaysItem, createDayInfo(), `afterbegin`);
 render(siteTripEventsList, createTripEventEdit(), `afterbegin`);
 
-for (let i = 0; i < 3; i++) {
+for (let i = 0; i < numberPoints; i++) {
   render(siteTripEventsList, createTripEvent(), `beforeend`);
 }
