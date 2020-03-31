@@ -2,7 +2,7 @@
 
 const NUMBER_POINTS = 3;
 
-const ComponentTripInfo = () => {
+const componentTripInfo = () => {
   return `<section class="trip-main__trip-info  trip-info">
       <div class="trip-info__main">
         <h1 class="trip-info__title">Amsterdam &mdash; Chamonix &mdash; Geneva</h1>
@@ -16,14 +16,14 @@ const ComponentTripInfo = () => {
     </section>`;
 };
 
-const ComponentTripControls = () => {
+const componentTripControls = () => {
   return `<nav class="trip-controls__trip-tabs  trip-tabs">
       <a class="trip-tabs__btn  trip-tabs__btn--active" href="#">Table</a>
       <a class="trip-tabs__btn" href="#">Stats</a>
     </nav>`;
 };
 
-const ComponentTripFilters = () => {
+const componentTripFilters = () => {
   return `<form class="trip-filters" action="#" method="get">
     <div class="trip-filters__filter">
       <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything" checked>
@@ -44,7 +44,7 @@ const ComponentTripFilters = () => {
   </form>`;
 };
 
-const ComponentTripSort = () => {
+const componentTripSort = () => {
   return `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
     <span class="trip-sort__item  trip-sort__item--day">Day</span>
 
@@ -77,7 +77,7 @@ const ComponentTripSort = () => {
   </form>`;
 };
 
-const ComponentTripEvent = () => {
+const componentTripEvent = () => {
   return `
     <li class="trip-events__item">
       <div class="event">
@@ -115,7 +115,7 @@ const ComponentTripEvent = () => {
     </li>`;
 };
 
-const ComponentTripEventEdit = () => {
+const componentTripEventEdit = () => {
   return `<li class="trip-events__item">
   <form class="event  event--edit" action="#" method="post">
     <header class="event__header">
@@ -291,7 +291,7 @@ const ComponentTripEventEdit = () => {
 </li>`;
 };
 
-const ComponentDayInfo = () => {
+const componentDayInfo = () => {
   return `<div class="day__info">
     <span class="day__counter">1</span>
     <time class="day__date" datetime="2019-03-18">MAR 18</time>
@@ -316,13 +316,13 @@ siteTripEventsList.classList.add(`trip-events__list`);
 siteTripEvents.appendChild(siteTripDays);
 siteTripDays.appendChild(siteTripDaysItem);
 siteTripDaysItem.appendChild(siteTripEventsList);
-render(siteTripMain, ComponentTripInfo(), `afterbegin`);
-render(siteTripControls[0], ComponentTripControls(), `afterend`);
-render(siteTripControls[1], ComponentTripFilters(), `afterend`);
-render(siteTripEvents, ComponentTripSort(), `afterbegin`);
-render(siteTripDaysItem, ComponentDayInfo(), `afterbegin`);
-render(siteTripEventsList, ComponentTripEventEdit(), `afterbegin`);
+render(siteTripMain, componentTripInfo(), `afterbegin`);
+render(siteTripControls[0], componentTripControls(), `afterend`);
+render(siteTripControls[1], componentTripFilters(), `afterend`);
+render(siteTripEvents, componentTripSort(), `afterbegin`);
+render(siteTripDaysItem, componentDayInfo(), `afterbegin`);
+render(siteTripEventsList, componentTripEventEdit(), `afterbegin`);
 
 for (let i = 0; i < NUMBER_POINTS; i++) {
-  render(siteTripEventsList, ComponentTripEvent(), `beforeend`);
+  render(siteTripEventsList, componentTripEvent(), `beforeend`);
 }
