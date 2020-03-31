@@ -1,5 +1,7 @@
 "use strict";
 
+const NUMBER_POINTS = 3;
+
 const ComponentTripInfo = () => {
   return `<section class="trip-main__trip-info  trip-info">
       <div class="trip-info__main">
@@ -306,7 +308,6 @@ const siteTripEvents = document.querySelector(`.trip-events`);
 const siteTripDays = document.createElement(`ul`);
 const siteTripDaysItem = document.createElement(`li`);
 const siteTripEventsList = document.createElement(`ul`);
-let numberPoints = 3;
 
 siteTripDays.classList.add(`trip-days`);
 siteTripDaysItem.classList.add(`trip-days__item`);
@@ -322,6 +323,6 @@ render(siteTripEvents, ComponentTripSort(), `afterbegin`);
 render(siteTripDaysItem, ComponentDayInfo(), `afterbegin`);
 render(siteTripEventsList, ComponentTripEventEdit(), `afterbegin`);
 
-for (let i = 0; i < numberPoints; i++) {
+for (let i = 0; i < NUMBER_POINTS; i++) {
   render(siteTripEventsList, ComponentTripEvent(), `beforeend`);
 }
