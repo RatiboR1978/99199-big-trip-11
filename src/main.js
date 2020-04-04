@@ -1,10 +1,10 @@
-import {componentTripInfo} from "./components/info.js";
-import {componentTripControls} from "./components/controls.js";
-import {componentTripFilters} from "./components/filters.js";
-import {componentTripSort} from "./components/sorting.js";
-import {componentTripEvent} from "./components/event.js";
-import {componentTripEventEdit} from "./components/event-edit.js";
-import {componentDayInfo} from "./components/day-info.js";
+import {createTripInfo} from "./components/info.js";
+import {createTripControls} from "./components/controls.js";
+import {createTripFilters} from "./components/filters.js";
+import {createTripSort} from "./components/sorting.js";
+import {createTripEvent} from "./components/event.js";
+import {createTripEventEdit} from "./components/event-edit.js";
+import {createDayInfo} from "./components/day-info.js";
 
 const NUMBER_POINTS = 3;
 
@@ -26,13 +26,13 @@ siteTripEventsList.classList.add(`trip-events__list`);
 siteTripEvents.appendChild(siteTripDays);
 siteTripDays.appendChild(siteTripDaysItem);
 siteTripDaysItem.appendChild(siteTripEventsList);
-render(siteTripMain, componentTripInfo(), `afterbegin`);
-render(siteTripControls[0], componentTripControls(), `afterend`);
-render(siteTripControls[1], componentTripFilters(), `afterend`);
-render(siteTripEvents, componentTripSort(), `afterbegin`);
-render(siteTripDaysItem, componentDayInfo(), `afterbegin`);
-render(siteTripEventsList, componentTripEventEdit(), `afterbegin`);
+render(siteTripMain, createTripInfo(), `afterbegin`);
+render(siteTripControls[0], createTripControls(), `afterend`);
+render(siteTripControls[1], createTripFilters(), `afterend`);
+render(siteTripEvents, createTripSort(), `afterbegin`);
+render(siteTripDaysItem, createDayInfo(), `afterbegin`);
+render(siteTripEventsList, createTripEventEdit(), `afterbegin`);
 
 for (let i = 0; i < NUMBER_POINTS; i++) {
-  render(siteTripEventsList, componentTripEvent(), `beforeend`);
+  render(siteTripEventsList, createTripEvent(), `beforeend`);
 }

@@ -1,4 +1,4 @@
-export const componentTripEventEdit = () => {
+export const createTripEventEdit = () => {
   return `<li class="trip-events__item">
     <form class="event  event--edit" action="#" method="post">
       <header class="event__header">
