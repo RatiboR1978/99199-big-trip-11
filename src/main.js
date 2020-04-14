@@ -5,8 +5,20 @@ import {createTripSort} from "./components/sorting.js";
 import {createTripEvent} from "./components/event.js";
 import {createTripEventEdit} from "./components/event-edit.js";
 import {createDayInfo} from "./components/day-info.js";
+import {createWayPoint} from "./components/event.js";
 
-const NUMBER_POINTS = 3;
+const NUMBER_POINTS = 15;
+
+// Создает массив с объектами данных точек
+const createPoints = () => {
+  const arr = [];
+  for (let i = 0; i < NUMBER_POINTS; i++) {
+    arr.push(createWayPoint());
+  }
+  return arr;
+};
+
+const points = createPoints();
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -31,8 +43,8 @@ render(siteTripControls[0], createTripControls(), `afterend`);
 render(siteTripControls[1], createTripFilters(), `afterend`);
 render(siteTripEvents, createTripSort(), `afterbegin`);
 render(siteTripDaysItem, createDayInfo(), `afterbegin`);
-render(siteTripEventsList, createTripEventEdit(), `afterbegin`);
+render(siteTripEventsList, createTripEventEdit(points[0]), `afterbegin`);
 
 for (let i = 0; i < NUMBER_POINTS; i++) {
-  render(siteTripEventsList, createTripEvent(), `beforeend`);
+  render(siteTripEventsList, createTripEvent(points[i]), `beforeend`);
 }
