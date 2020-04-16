@@ -1,4 +1,3 @@
-import {generateDate} from "./../mock/day-info";
 import {generateStrDate} from "./../utils/utils.js";
 
 

@@ -33,7 +33,6 @@ export const createWayPoint = () => {
   return object;
 };
 
-console.log(createWayPoint());
 
 export const createTripEvent = (obj) => {
   return `
