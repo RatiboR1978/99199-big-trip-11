@@ -1,4 +1,5 @@
 import {createOfferItem} from "./../components/offer-item.js";
+import {generateDate} from "./../mock/day-info";
 
 // Генератор случайного индекса массива
 export const getRandomIndexArr = (arr) => {
@@ -53,5 +54,12 @@ export const createListOffer = (arr) => {
     result += createOfferItem(item.nameOffer, item.price, key, item.checked);
   }
   return result;
+};
+
+// Генерит строку даты для day-info
+export const generateStrDate = (num, bul) => {
+  const arrMonths = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `June`];
+  const date = new Date(Date.parse(generateDate()[num]));
+  return (bul) ? `${arrMonths[date.getMonth()]} ${date.getDate()}` : `${date.getDate() - 1}`;
 };
 

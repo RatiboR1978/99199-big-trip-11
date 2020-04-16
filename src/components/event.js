@@ -7,6 +7,7 @@ import {generateDestinationInformation} from "./../mock/event.js";
 import {generateTime} from "./../mock/event.js";
 import {price} from "./../mock/event.js";
 import {createOffers} from "./../mock/event.js";
+import {generatePhoto} from "./../mock/event.js";
 
 // Создает объект с данными точки
 export const createWayPoint = () => {
@@ -24,7 +25,7 @@ export const createWayPoint = () => {
   object.offers = arrOffers;
   object.information = {
     description: getRandomArr(destinationsInformation, maxDestinationsInformation).map((it) => (it) ? `${it}.` : ``).join(``),
-    photo: `http://picsum.photos/248/152?r=${Math.random()}`
+    photo: generatePhoto()
   };
   object.time = generateTime();
   object.price = price(arrOffers);
@@ -32,7 +33,7 @@ export const createWayPoint = () => {
   return object;
 };
 
-// console.log(createWayPoint());
+console.log(createWayPoint());
 
 export const createTripEvent = (obj) => {
   return `

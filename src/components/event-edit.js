@@ -128,6 +128,16 @@ export const createTripEventEdit = (obj) => {
             ${createListOffer(obj.offers)}
           </div>
         </section>
+        <section class="event__section  event__section--destination">
+          <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+          <p class="event__destination-description">${obj.information.description}</p>
+
+          <div class="event__photos-container">
+            <div class="event__photos-tape">
+              ${obj.information.photo}
+            </div>
+          </div>
+        </section>
       </section>
     </form>
   </li>`;

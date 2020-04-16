@@ -1,5 +1,9 @@
 import {createStrTime} from "./../utils/utils.js";
 import {createStrTimeEditPoint} from "./../utils/utils.js";
+import {getRandomIntegerNumber} from "./../utils/utils.js";
+
+const maxPhoto = 5;
+const minPhoto = 1;
 
 // Генератор типа точек
 export const generatePointType = () => {
@@ -100,4 +104,16 @@ export const createOffers = (arr) => {
    </li>`;
   }
   return str;
+};
+
+// Генерит фото
+
+export const generatePhoto = () => {
+  let max = getRandomIntegerNumber(minPhoto, maxPhoto);
+  let result = ``;
+
+  for (let i = 0; i < max; i++) {
+    result += `<img class="event__photo" src="http://picsum.photos/248/152?r=${Math.random()}" alt="Event photo">`;
+  }
+  return result;
 };
