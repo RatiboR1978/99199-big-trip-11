@@ -1,4 +1,5 @@
 import {generateStrDate} from "./../utils/utils.js";
+import {createElement} from "./../utils/utils.js";
 
 
 // Создаем объект с данными для info
@@ -19,6 +20,7 @@ const strCity = (arr) => {
   return result;
 };
 
+// Функция создания разметки
 export const createTripInfo = (obj) => {
   return `<section class="trip-main__trip-info  trip-info">
         <div class="trip-info__main">
@@ -32,3 +34,27 @@ export const createTripInfo = (obj) => {
         </p>
       </section>`;
 };
+
+// Класс TripInfo
+export default class TripInfo {
+  constructor(data) {
+    this.data = data;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripInfo(this.data);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

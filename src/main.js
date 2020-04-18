@@ -1,13 +1,14 @@
-import {createTripInfo} from "./components/info.js";
-import {createTripControls} from "./components/controls.js";
-import {createTripFilters} from "./components/filters.js";
-import {createTripSort} from "./components/sorting.js";
-import {createTripEvent} from "./components/event.js";
-import {createTripEventEdit} from "./components/event-edit.js";
-import {createDayInfo} from "./components/day-info.js";
+import TripInfo from "./components/info.js";
+import DayInfo from "./components/day-info.js";
+import TripControls from "./components/controls.js";
+import TripFilters from "./components/filters.js";
+import TripSort from "./components/sorting.js";
+import TripEvent from "./components/event.js";
+import TripEventEdit from "./components/event-edit.js";
 import {createWayPoint} from "./components/event.js";
 import {getRandomIntegerNumber} from "./../src/utils/utils.js";
 import {createDataInfo} from "./components/info.js";
+import {render, RenderPosition} from "./../src/utils/utils.js";
 
 const NUMBER_POINTS = 5;
 const MIN_DAY = 1;
@@ -41,29 +42,37 @@ const generateDays = () => {
     siteTripEvents.appendChild(siteTripDays);
     siteTripDays.appendChild(siteTripDaysItem);
     siteTripDaysItem.appendChild(siteTripEventsList);
-    render(siteTripDaysItem, createDayInfo(i), `afterbegin`);
-    if (i === 0) {
-      render(siteTripEventsList, createTripEventEdit(points[0]), `afterbegin`);
-      sumPrice += points[0].price;
-    }
+    render(siteTripDaysItem, new DayInfo(i).getElement(), RenderPosition.AFTERBEGIN);
     for (let j = 0; j < NUMBER_POINTS; j++) {
-      render(siteTripEventsList, createTripEvent(points[j]), `beforeend`);
+      const tripEventEdit = new TripEventEdit(points[j]);
+      const tripEvent = new TripEvent(points[j]);
+      const evenBtn = tripEvent.getElement().querySelector(`.event__rollup-btn`);
+      const editForm = tripEventEdit.getElement().querySelector(`form`);
+
+      const onEditButtonClick = () => {
+        siteTripEventsList.replaceChild(tripEventEdit.getElement(), tripEvent.getElement());
+      };
+
+      const onEditFormSubmit = (evt) => {
+        evt.preventDefault();
+        siteTripEventsList.replaceChild(tripEvent.getElement(), tripEventEdit.getElement());
+      };
+
+      evenBtn.addEventListener(`click`, onEditButtonClick);
+      editForm.addEventListener(`submit`, onEditFormSubmit);
+
+      render(siteTripEventsList, tripEvent.getElement(), RenderPosition.BEFOREEND);
       sumPrice += points[j].price;
     }
   }
 
-  render(siteTripMain, createTripInfo(createDataInfo(arrStartNamePoint, sumPrice, max)), `afterbegin`);
+  render(siteTripMain, new TripInfo(createDataInfo(arrStartNamePoint, sumPrice, max)).getElement(), RenderPosition.AFTERBEGIN);
 
   return result;
 };
 
-
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
-
 const siteTripMain = document.querySelector(`.trip-main`);
-const siteTripControls = siteTripMain.querySelectorAll(`.trip-controls h2`);
+const siteTripControls = siteTripMain.querySelector(`.trip-controls`);
 const siteTripEvents = document.querySelector(`.trip-events`);
 const siteTripDays = document.createElement(`ul`);
 const siteTripDaysItem = document.createElement(`li`);
@@ -78,8 +87,8 @@ siteTripEventsList.classList.add(`trip-events__list`);
 siteTripEvents.appendChild(siteTripDays);
 siteTripDays.appendChild(siteTripDaysItem);
 siteTripDaysItem.appendChild(siteTripEventsList);
-render(siteTripControls[0], createTripControls(), `afterend`);
-render(siteTripControls[1], createTripFilters(), `afterend`);
-render(siteTripEvents, createTripSort(), `afterbegin`);
+render(siteTripControls, new TripFilters().getElement(), RenderPosition.AFTERBEGIN);
+render(siteTripControls, new TripControls().getElement(), RenderPosition.AFTERBEGIN);
+render(siteTripEvents, new TripSort().getElement(), RenderPosition.AFTERBEGIN);
 
 

@@ -1,4 +1,5 @@
 import {createListOffer} from "./../utils/utils.js";
+import {createElement} from "./../utils/utils.js";
 
 export const createTripEventEdit = (obj) => {
   return `<li class="trip-events__item">
@@ -142,3 +143,27 @@ export const createTripEventEdit = (obj) => {
     </form>
   </li>`;
 };
+
+// Класс TripEventEdit
+export default class TripEventEdit {
+  constructor(data) {
+    this.data = data;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripEventEdit(this.data);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

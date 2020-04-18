@@ -1,3 +1,5 @@
+import {createElement} from "./../utils/utils.js";
+
 export const createTripFilters = () => {
   return `<form class="trip-filters" action="#" method="get">
       <div class="trip-filters__filter">
@@ -18,3 +20,27 @@ export const createTripFilters = () => {
       <button class="visually-hidden" type="submit">Accept filter</button>
     </form>`;
 };
+
+
+// Класс TripFilters
+export default class TripFilters {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripFilters();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
