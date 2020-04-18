@@ -63,3 +63,29 @@ export const generateStrDate = (num, bul) => {
   return (bul) ? `${arrMonths[date.getMonth()]} ${date.getDate()}` : `${date.getDate() - 1}`;
 };
 
+// Вспомогательная функциz для создания DOM-элемента
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
+// Функция позиционирования вставки элемента
+export const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`
+};
+
+// Функция рендеринга элемента
+export const render = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+

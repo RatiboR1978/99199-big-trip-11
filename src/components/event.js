@@ -8,6 +8,7 @@ import {generateTime} from "./../mock/event.js";
 import {price} from "./../mock/event.js";
 import {createOffers} from "./../mock/event.js";
 import {generatePhoto} from "./../mock/event.js";
+import {createElement} from "./../utils/utils.js";
 
 // Создает объект с данными точки
 export const createWayPoint = () => {
@@ -35,8 +36,7 @@ export const createWayPoint = () => {
 
 
 export const createTripEvent = (obj) => {
-  return `
-      <li class="trip-events__item">
+  return `<li class="trip-events__item">
         <div class="event">
           <div class="event__type">
             <img class="event__type-icon" width="42" height="42" src="img/icons/${obj.pointType.toLowerCase()}.png" alt="Event type icon">
@@ -67,3 +67,27 @@ export const createTripEvent = (obj) => {
         </div>
       </li>`;
 };
+
+// Класс TripEvent
+export default class TripEvent {
+  constructor(data) {
+    this.data = data;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripEvent(this.data);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
