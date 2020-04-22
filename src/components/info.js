@@ -1,5 +1,5 @@
-import {generateStrDate} from "./../utils/utils.js";
-import {createElement} from "./../utils/utils.js";
+import {generateStrDate} from "./../utils/common.js";
+import AbstractComponent from "./abstract-component.js";
 
 
 // Создаем объект с данными для info
@@ -47,25 +47,13 @@ export const createTripInfo = (obj) => {
 };
 
 // Класс TripInfo
-export default class TripInfo {
+export default class TripInfo extends AbstractComponent {
   constructor(data) {
+    super();
     this.data = data;
-    this._element = null;
   }
 
   getTemplate() {
     return createTripInfo(this.data);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

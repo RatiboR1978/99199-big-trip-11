@@ -1,4 +1,4 @@
-import {createElement} from "./../utils/utils.js";
+import AbstractComponent from "./abstract-component.js";
 
 export const createTripControls = () => {
   return `<nav class="trip-controls__trip-tabs  trip-tabs">
@@ -8,24 +8,8 @@ export const createTripControls = () => {
 };
 
 // Класс TripControls
-export default class TripControls {
-  constructor() {
-    this._element = null;
-  }
-
+export default class TripControls extends AbstractComponent {
   getTemplate() {
     return createTripControls();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
