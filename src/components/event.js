@@ -1,14 +1,6 @@
-import {getRandomIndexArr} from "./../utils/utils.js";
-import {getRandomArr} from "./../utils/utils.js";
-import {generatePointType} from "./../mock/event.js";
-import {generateCity} from "./../mock/event.js";
-import {generateOffer} from "./../mock/event.js";
-import {generateDestinationInformation} from "./../mock/event.js";
-import {generateTime} from "./../mock/event.js";
-import {price} from "./../mock/event.js";
-import {createOffers} from "./../mock/event.js";
-import {generatePhoto} from "./../mock/event.js";
-import {createElement} from "./../utils/utils.js";
+import {getRandomIndexArr, getRandomArr} from "./../utils/common.js";
+import {generatePointType, generateCity, generateOffer, generateDestinationInformation, generateTime, price, createOffers, generatePhoto} from "./../mock/event.js";
+import AbstractComponent from "./abstract-component.js";
 
 // Создает объект с данными точки
 export const createWayPoint = () => {
@@ -69,25 +61,17 @@ export const createTripEvent = (obj) => {
 };
 
 // Класс TripEvent
-export default class TripEvent {
+export default class TripEvent extends AbstractComponent {
   constructor(data) {
+    super();
     this.data = data;
-    this._element = null;
   }
 
   getTemplate() {
     return createTripEvent(this.data);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setClickHandler(cb) {
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, cb);
   }
 }

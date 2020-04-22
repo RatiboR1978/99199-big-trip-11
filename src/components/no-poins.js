@@ -1,4 +1,4 @@
-import {createElement} from "./../utils/utils.js";
+import AbstractComponent from "./abstract-component.js";
 
 // Функция создания разметки
 export const createNoPoins = () => {
@@ -6,24 +6,8 @@ export const createNoPoins = () => {
 };
 
 // Класс TripInfo
-export default class NoPoins {
-  constructor() {
-    this._element = null;
-  }
-
+export default class NoPoins extends AbstractComponent {
   getTemplate() {
     return createNoPoins();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

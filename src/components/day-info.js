@@ -1,6 +1,6 @@
-import {generateStrDate} from "./../utils/utils.js";
+import {generateStrDate} from "./../utils/common.js";
 import {generateDate} from "./../mock/day-info";
-import {createElement} from "./../utils/utils.js";
+import AbstractComponent from "./abstract-component.js";
 
 export const createDayInfo = (numDay) => {
   return `<div class="day__info">
@@ -10,26 +10,14 @@ export const createDayInfo = (numDay) => {
 };
 
 // Класс DayInfo
-export default class DayInfo {
+export default class DayInfo extends AbstractComponent {
   constructor(data) {
+    super();
     this.data = data;
-    this._element = null;
   }
 
   getTemplate() {
     return createDayInfo(this.data);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 

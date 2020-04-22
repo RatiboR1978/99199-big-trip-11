@@ -1,6 +1,6 @@
-import {createStrTime} from "./../utils/utils.js";
-import {createStrTimeEditPoint} from "./../utils/utils.js";
-import {getRandomIntegerNumber} from "./../utils/utils.js";
+import {createStrTime} from "./../utils/common.js";
+import {createStrTimeEditPoint} from "./../utils/common.js";
+import {getRandomIntegerNumber} from "./../utils/common.js";
 
 const maxPhoto = 5;
 const minPhoto = 1;
