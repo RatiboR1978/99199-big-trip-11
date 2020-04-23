@@ -68,12 +68,12 @@ export const generateTime = () => {
     finishTime() {
       return `${createStrTime(this.finishDate)}`;
     },
-    elapsedTime() {
+    elapsedTime(flag) {
       const start = Date.parse(this.startDate);
       const finish = Date.parse(this.finishDate);
       const difference = finish - start;
       const date = new Date(difference);
-      return `${date.getMinutes()}M`;
+      return (flag) ? date.getTime() : `${date.getMinutes()}M`;
     },
     startTimeEditPoint() {
       return `${createStrTimeEditPoint(this.startDate)}`;
