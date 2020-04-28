@@ -22,6 +22,7 @@ export const createWayPoint = () => {
   };
   object.time = generateTime();
   object.price = price(arrOffers);
+  object.favorite = false;
 
   return object;
 };

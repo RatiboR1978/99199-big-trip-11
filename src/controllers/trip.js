@@ -1,11 +1,10 @@
 import TripInfo from "../components/info.js";
 import DayInfo from "../components/day-info.js";
-import TripEvent from "../components/event.js";
-import TripEventEdit from "../components/event-edit.js";
+import PointController from "./point.js";
 import {createWayPoint} from "../components/event.js";
 import {SortType} from "../components/sorting.js";
 import {createDataInfo} from "../components/info.js";
-import {render, RenderPosition, replace} from "../../src/utils/render.js";
+import {render, RenderPosition} from "../../src/utils/render.js";
 
 const NUMBER_POINTS = 5;
 let arrStartNamePoint = [];
@@ -21,7 +20,7 @@ const createPoints = () => {
 };
 
 // Генерит количество дней в маршруте
-const generateDays = (maxDay, events, days, main, sort, noPoins, siteControls, filters, controls, allPoints) => {
+const generateDays = (maxDay, events, days, main, sort, noPoins, siteControls, filters, controls, allPoints, onDataChange) => {
   let result = ``;
 
   for (let i = 0; i < maxDay; i++) {
@@ -37,41 +36,11 @@ const generateDays = (maxDay, events, days, main, sort, noPoins, siteControls, f
     siteTripDaysItem.appendChild(siteTripEventsList);
     render(siteTripDaysItem, new DayInfo(i), RenderPosition.AFTERBEGIN);
     for (let j = 0; j < NUMBER_POINTS; j++) {
-      const tripEventEdit = new TripEventEdit(points[j]);
-      const tripEvent = new TripEvent(points[j]);
-      allPoints.push(tripEvent);
 
-      const replaceTripEventToEdit = () => {
-        replace(tripEventEdit, tripEvent);
-      };
-      const replaceEditToTripEvent = () => {
-        replace(tripEvent, tripEventEdit);
-      };
+      const point = new PointController(siteTripEventsList, onDataChange);
 
-      const onEscKeyDown = (evt) => {
-        const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+      point.render(points[j], allPoints);
 
-        if (isEscKey) {
-          replaceEditToTripEvent();
-        }
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      };
-
-      const onEditButtonClick = () => {
-        replaceTripEventToEdit();
-        document.addEventListener(`keydown`, onEscKeyDown);
-      };
-
-      const onEditFormSubmit = (evt) => {
-        evt.preventDefault();
-        replaceEditToTripEvent();
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      };
-
-      tripEvent.setClickHandler(onEditButtonClick);
-      tripEventEdit.setSubmitHandler(onEditFormSubmit);
-
-      render(siteTripEventsList, tripEvent, RenderPosition.BEFOREEND);
       sumPrice += points[j].price;
     }
   }
@@ -86,7 +55,6 @@ const generateDays = (maxDay, events, days, main, sort, noPoins, siteControls, f
   } else {
     render(events, noPoins, RenderPosition.AFTERBEGIN);
   }
-  // console.log(allPoints);
   return result;
 };
 
@@ -125,8 +93,12 @@ export default class TripController {
     this.tripEventsList = tripEventsList;
   }
 
+  _onDataChange(point) {
+    point.favorite = (!point.favorite) ? true : false;
+  }
+
   render(maxDay) {
-    generateDays(maxDay, this.events, this.days, this.main, this.sort, this.noPoins, this.siteControls, this.filters, this.controls, this.allPoints);
+    generateDays(maxDay, this.events, this.days, this.main, this.sort, this.noPoins, this.siteControls, this.filters, this.controls, this.allPoints, this._onDataChange);
 
 
     this.sort.setSortTypeChangeHandler((sortType) => {
