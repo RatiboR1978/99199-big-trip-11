@@ -11,11 +11,9 @@ export default class PointController {
     this._onDataChange = onDataChange;
   }
 
-  render(point, arrPoints) {
+  render(point) {
     this._pointComponent = new TripEvent(point);
     this._pointEditComponent = new TripEventEdit(point);
-
-    arrPoints.push(this._pointComponent);
 
     this._pointComponent.setClickHandler(() => {
       this._replaceTripEventToEdit();
@@ -29,7 +27,10 @@ export default class PointController {
     });
 
     this._pointEditComponent.setFavoriteHandler(() => {
-      this._onDataChange(point);
+      let newPoint = Object.assign({}, point);
+      newPoint.favorite = (!point.favorite) ? true : false;
+
+      this._onDataChange(this, point, newPoint);
     });
 
     render(this._container, this._pointComponent, RenderPosition.BEFOREEND);

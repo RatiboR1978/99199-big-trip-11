@@ -39,7 +39,9 @@ const generateDays = (maxDay, events, days, main, sort, noPoins, siteControls, f
 
       const point = new PointController(siteTripEventsList, onDataChange);
 
-      point.render(points[j], allPoints);
+      allPoints.push(point);
+
+      point.render(points[j]);
 
       sumPrice += points[j].price;
     }
@@ -80,7 +82,7 @@ const getSortedTasks = (tasks, sortType, from, to) => {
 
 // Класс TripController
 export default class TripController {
-  constructor(events, days, main, sort, noPoins, siteControls, filters, controls, allPoints, tripEventsList) {
+  constructor(events, days, main, sort, noPoins, siteControls, filters, controls, allPoints, tripEventsList, maxDay) {
     this.events = events;
     this.days = days;
     this.main = main;
@@ -91,15 +93,32 @@ export default class TripController {
     this.controls = controls;
     this.allPoints = allPoints;
     this.tripEventsList = tripEventsList;
+    this.maxDay = maxDay;
+    this._onDataChange = this._onDataChange.bind(this);
   }
 
-  _onDataChange(point) {
-    point.favorite = (!point.favorite) ? true : false;
+  _onDataChange(pointController, pointOld, pointNew) {
+    let index = 0;
+    this.allPoints.forEach((item, i) => {
+      if (item.data === pointOld) {
+        index = i;
+      }
+    });
+
+    if (index === -1) {
+      return;
+    }
+
+    const newPointComponent = this.allPoints[index];
+    newPointComponent.data = pointNew;
+
+    this.allPoints = [].concat(this.allPoints.slice(0, index), newPointComponent, this.allPoints.slice(index + 1));
+
+    pointController.render(pointNew);
   }
 
-  render(maxDay) {
-    generateDays(maxDay, this.events, this.days, this.main, this.sort, this.noPoins, this.siteControls, this.filters, this.controls, this.allPoints, this._onDataChange);
-
+  render() {
+    generateDays(this.maxDay, this.events, this.days, this.main, this.sort, this.noPoins, this.siteControls, this.filters, this.controls, this.allPoints, this._onDataChange);
 
     this.sort.setSortTypeChangeHandler((sortType) => {
       const showingTasksCount = this.allPoints.length;
