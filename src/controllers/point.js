@@ -82,6 +82,7 @@ export default class PointController {
       document.removeEventListener(`keydown`, this._onEscKeyDown);
     });
 
+    
     if (oldPointComponent && oldPointEditComponent) {
       replace(this._pointComponent, oldPointComponent);
       replace(this._pointEditComponent, oldPointEditComponent);
