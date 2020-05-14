@@ -1,5 +1,12 @@
-import {createListOffer} from "./../utils/common.js";
-import AbstractComponent from "./abstract-component.js";
+import {
+  createListOffer
+} from "./../utils/common.js";
+import {
+  arrOffers,
+  generateCityInfo
+} from "./../mock/event.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
+import TripOffer from "./offer-item.js";
 
 export const createTripEventEdit = (obj) => {
   return `<li class="trip-events__item">
@@ -75,7 +82,7 @@ export const createTripEventEdit = (obj) => {
   
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-            Flight to
+            ${obj.pointType} to
           </label>
           <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${obj.city}" list="destination-list-1">
           <datalist id="destination-list-1">
@@ -89,12 +96,12 @@ export const createTripEventEdit = (obj) => {
           <label class="visually-hidden" for="event-start-time-1">
             From
           </label>
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${obj.time[0].startTimeEditPoint()}">
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${obj.time.startTimeEditPoint()}">
           &mdash;
           <label class="visually-hidden" for="event-end-time-1">
             To
           </label>
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${obj.time[0].finishTimeEditPoint()}">
+          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${obj.time.finishTimeEditPoint()}">
         </div>
   
         <div class="event__field-group  event__field-group--price">
@@ -108,7 +115,7 @@ export const createTripEventEdit = (obj) => {
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
         <button class="event__reset-btn" type="reset">Delete</button>
   
-        <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" >
+        <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" ${(obj.favorite) ? `checked` : ``}>
         <label class="event__favorite-btn" for="event-favorite-1">
           <span class="visually-hidden">Add to favorite</span>
           <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
@@ -145,10 +152,21 @@ export const createTripEventEdit = (obj) => {
 };
 
 // Класс TripEventEdit
-export default class TripEventEdit extends AbstractComponent {
+export default class TripEventEdit extends AbstractSmartComponent {
   constructor(data) {
     super();
     this.data = data;
+    this._submitHandler = null;
+    this._subscribeOnEvents();
+  }
+
+  recoveryListeners() {
+    this.setSubmitHandler(this._submitHandler);
+    this._subscribeOnEvents();
+  }
+
+  rerender() {
+    super.rerender();
   }
 
   getTemplate() {
@@ -157,9 +175,52 @@ export default class TripEventEdit extends AbstractComponent {
 
   setSubmitHandler(cb) {
     this.getElement().querySelector(`form`).addEventListener(`submit`, cb);
+    this._submitHandler = cb;
   }
 
-  setFavoriteHandler(cb) {
-    this.getElement().querySelector(`.event__favorite-btn`).addEventListener(`click`, cb);
+  _subscribeOnEvents() {
+    const element = this.getElement();
+
+    // Выбор звездочки
+    element.querySelector(`.event__favorite-btn`).addEventListener(`click`, () => {
+      this.data.favorite = !this.data.favorite;
+      this.rerender();
+    });
+
+    // Выбор типа точки
+    element.querySelectorAll(`.event__type-item input`).forEach((item) => {
+      item.addEventListener(`click`, (evt) => {
+        const typePoint = evt.target.value;
+        element.querySelector(`.event__type-icon`).src = `img/icons/${typePoint}.png`;
+        element.querySelector(`#event-type-toggle-1`).checked = false;
+        element.querySelector(`.event__type-output`).textContent = `${typePoint} to`;
+        element.querySelector(`.event__available-offers`).innerHTML = ``;
+
+        let offers;
+        arrOffers.forEach((it) => {
+          if (it.type === typePoint) {
+            offers = it.offers;
+          }
+        });
+
+        offers.forEach((el, index) => {
+          const offer = new TripOffer(el.title, el.price, index, false);
+          document.querySelector(`.event__available-offers`).innerHTML += offer.getTemplate();
+        });
+      });
+    });
+
+    // Выбор города
+    const inputCity = element.querySelector(`.event__input--destination`);
+    inputCity.addEventListener(`blur`, () => {
+      const descElem = element.querySelector(`.event__destination-description`);
+      const arrInfoCities = generateCityInfo();
+
+      arrInfoCities.forEach((it) => {
+        if (it.name === inputCity.value) {
+          descElem.textContent = it.desc;
+        }
+      });
+    });
   }
 }

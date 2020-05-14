@@ -31,6 +31,8 @@ siteTripEvents.appendChild(siteTripDays);
 siteTripDays.appendChild(siteTripDaysItem);
 siteTripDaysItem.appendChild(siteTripEventsList);
 
-const tripController = new TripController(siteTripEvents, siteTripDays, siteTripMain, tripSort, noPoins, siteTripControls, tripFilters, tripControls, [], siteTripEventsList);
+const tripController = new TripController(siteTripEvents, siteTripDays, siteTripMain, tripSort, noPoins, siteTripControls, tripFilters, tripControls, siteTripEventsList);
 
+tripController.createArrPoints(maxDayEvent);
 tripController.render(maxDayEvent);
+

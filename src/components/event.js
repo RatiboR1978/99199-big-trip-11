@@ -1,28 +1,27 @@
-import {getRandomIndexArr, getRandomArr} from "./../utils/common.js";
-import {generatePointType, generateCity, generateOffer, generateDestinationInformation, generateTime, price, createOffers, generatePhoto} from "./../mock/event.js";
+import {getRandomIndexArr, getRandomIntegerNumber} from "./../utils/common.js";
+import {generatePointType, generateOffer, generateTime, createOffers, generatePhoto, generateCityInfo} from "./../mock/event.js";
 import AbstractComponent from "./abstract-component.js";
 
 // Создает объект с данными точки
 export const createWayPoint = () => {
   const object = {};
   const pointTypes = generatePointType();
-  const cities = generateCity();
-  const maxOffers = 5;
-  const maxDestinationsInformation = 5;
-  const offersData = generateOffer();
-  const destinationsInformation = generateDestinationInformation();
-  const arrOffers = getRandomArr(offersData, maxOffers);
+  const cities = generateCityInfo();
+  const indexCity = getRandomIndexArr(cities);
 
+  object.id = ``;
+  object.favorite = false;
   object.pointType = pointTypes[getRandomIndexArr(pointTypes)];
-  object.city = cities[getRandomIndexArr(cities)];
-  object.offers = arrOffers;
+  object.offers = generateOffer(object.pointType);
+  object.city = cities[indexCity].name;
   object.information = {
-    description: getRandomArr(destinationsInformation, maxDestinationsInformation).map((it) => (it) ? `${it}.` : ``).join(``),
+    description: cities[indexCity].desc,
     photo: generatePhoto()
   };
-  object.time = generateTime();
-  object.price = price(arrOffers);
-  object.favorite = false;
+  object.startDate = `2019-07-10T22:55:56.845Z`;
+  object.finishDate = `2019-07-11T11:22:13.375Z`;
+  object.time = generateTime(object.startDate, object.finishDate);
+  object.price = getRandomIntegerNumber(10, 100);
 
   return object;
 };
@@ -38,11 +37,11 @@ export const createTripEvent = (obj) => {
   
           <div class="event__schedule">
             <p class="event__time">
-              <time class="event__start-time" datetime="${obj.time[0].startDate}">${obj.time[0].startTime()}</time>
+              <time class="event__start-time" datetime="${obj.time.startDate}">${obj.time.startTime()}</time>
               &mdash;
-              <time class="event__end-time" datetime="${obj.time[0].finishDate}">${obj.time[0].finishTime()}</time>
+              <time class="event__end-time" datetime="${obj.time.finishDate}">${obj.time.finishTime()}</time>
             </p>
-            <p class="event__duration">${obj.time[0].elapsedTime()}</p>
+            <p class="event__duration">${obj.time.elapsedTime()}</p>
           </div>
   
           <p class="event__price">

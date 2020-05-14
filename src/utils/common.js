@@ -47,11 +47,10 @@ export const createStrTimeEditPoint = (time) => {
 };
 
 // Функция создания списка опций
-
 export const createListOffer = (arr) => {
   let result = ``;
   for (const [key, item] of arr.entries()) {
-    result += createOfferItem(item.nameOffer, item.price, key, item.checked);
+    result += createOfferItem(item.title, item.price, key, item.checked);
   }
   return result;
 };
@@ -61,4 +60,21 @@ export const generateStrDate = (num, bul) => {
   const arrMonths = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `June`];
   const date = new Date(Date.parse(generateDate()[num]));
   return (bul) ? `${arrMonths[date.getMonth()]} ${date.getDate()}` : `${date.getDate() - 1}`;
+};
+
+// Функция собирает все элементы вложеных массивов в один
+export const generateAllPoints = (arr) => {
+  let result = [];
+  arr.forEach((item) => {
+    item.forEach((it) => result.push(it));
+  });
+  return result;
+};
+
+// Функция приведения времени к формату `2019-07-10T22:55:56.845Z`
+export const createStringeTimeFormat = (str) => {
+  const re = /\//gi;
+  const newstr = str.replace(re, `-`);
+  const arr = newstr.split(` `);
+  return `20${arr[0]}T${arr[1]}Z`;
 };

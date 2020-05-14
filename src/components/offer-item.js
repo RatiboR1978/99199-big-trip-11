@@ -13,7 +13,7 @@ export const createOfferItem = (name, price, index, checked) => {
 
 
 // Класс TripEvent
-export default class TripEvent extends AbstractComponent {
+export default class TripOffer extends AbstractComponent {
   constructor(name, price, index, checked) {
     super();
     this.name = name;

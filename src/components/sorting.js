@@ -5,7 +5,7 @@ export const createTripSort = () => {
       <span class="trip-sort__item  trip-sort__item--day">Day</span>
   
       <div class="trip-sort__item  trip-sort__item--event">
-        <input id="sort-event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-event" checked>
+        <input id="sort-event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-event">
         <label class="trip-sort__btn" for="sort-event" data-sort-type="${SortType.EVENT}">Event</label>
       </div>
   
@@ -44,7 +44,7 @@ export const SortType = {
 export default class TripSort extends AbstractComponent {
   constructor() {
     super();
-    this._currenSortType = SortType.EVENT;
+    this._currenSortType = null;
   }
 
   getTemplate() {
@@ -68,6 +68,7 @@ export default class TripSort extends AbstractComponent {
       if (this._currenSortType === sortType) {
         return;
       }
+
       evt.target.previousElementSibling.checked = true;
       this._currenSortType = sortType;
 
