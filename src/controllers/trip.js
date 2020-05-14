@@ -31,6 +31,7 @@ const createPoints = () => {
   return arr;
 };
 
+
 // Функция рендеринга точек точек
 const renderPoints = (pointListElement, points, onDataChange, onViewChange) => {
   return points.map((task) => {
