@@ -4,12 +4,17 @@ import TripSort from "./components/sorting.js";
 import NoPoins from "./components/no-poins.js";
 import {getRandomIntegerNumber} from "./../src/utils/common.js";
 import TripController from "./../src/controllers/trip.js";
+import PointsModel from "./../src/models/points.js";
+import {createArrPoints} from "./../src/mock/event.js";
 
 const MIN_DAY = 1;
 const MAX_DAY = 5;
 
 // Количество дней в поездке
 let maxDayEvent = getRandomIntegerNumber(MIN_DAY, MAX_DAY);
+
+// Массив сгенерироваными точками
+const points = createArrPoints(maxDayEvent);
 
 const siteTripMain = document.querySelector(`.trip-main`);
 const siteTripControls = siteTripMain.querySelector(`.trip-controls`);
@@ -21,6 +26,8 @@ const tripFilters = new TripFilters();
 const tripControls = new TripControls();
 const tripSort = new TripSort();
 const noPoins = new NoPoins();
+const pointsModel = new PointsModel();
+pointsModel.setPoints(points);
 
 
 siteTripDays.classList.add(`trip-days`);
@@ -31,7 +38,7 @@ siteTripEvents.appendChild(siteTripDays);
 siteTripDays.appendChild(siteTripDaysItem);
 siteTripDaysItem.appendChild(siteTripEventsList);
 
-const tripController = new TripController(siteTripEvents, siteTripDays, siteTripMain, tripSort, noPoins, siteTripControls, tripFilters, tripControls, siteTripEventsList);
+const tripController = new TripController(siteTripEvents, siteTripDays, siteTripMain, tripSort, noPoins, siteTripControls, tripFilters, tripControls, siteTripEventsList, pointsModel);
 
 tripController.createArrPoints(maxDayEvent);
 tripController.render(maxDayEvent);

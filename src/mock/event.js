@@ -1,9 +1,12 @@
 import {createStrTime} from "./../utils/common.js";
 import {createStrTimeEditPoint} from "./../utils/common.js";
 import {getRandomIntegerNumber} from "./../utils/common.js";
+import {createWayPoint} from "../components/event.js";
 
 const maxPhoto = 5;
 const minPhoto = 1;
+const NUMBER_POINTS = 5;
+
 export const arrOffers = [
   {
     "type": `taxi`,
@@ -240,4 +243,32 @@ export const generatePhoto = () => {
     result += `<img class="event__photo" src="http://picsum.photos/248/152?r=${Math.random()}" alt="Event photo">`;
   }
   return result;
+};
+
+// Создает массив с объектами данных точек
+export const createPoints = () => {
+  const arr = [];
+  for (let i = 0; i < NUMBER_POINTS; i++) {
+    arr.push(createWayPoint());
+  }
+  return arr;
+};
+
+// Создает массив с объектами данных точек с учетом дней
+export const createArrPoints = (maxDay) => {
+  let arrResult = [];
+  for (let i = 0; i < maxDay; i++) {
+    const points = createPoints();
+    arrResult.push(points);
+  }
+
+  let i = 0;
+  arrResult.forEach((item) => {
+    item.forEach((it) => {
+      i++;
+      it.id = i;
+    });
+  });
+
+  return arrResult;
 };

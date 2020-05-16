@@ -64,7 +64,7 @@ const getSortedTasks = (tasks, sortType, from, to) => {
 
 // Класс TripController
 export default class TripController {
-  constructor(events, days, main, sort, noPoins, siteControls, filters, controls, tripEventsList) {
+  constructor(events, days, main, sort, noPoins, siteControls, filters, controls, tripEventsList, pointsModel) {
     this.events = events;
     this.days = days;
     this.main = main;
@@ -78,6 +78,7 @@ export default class TripController {
     this._onViewChange = this._onViewChange.bind(this);
     this.allPoints = [];
     this._showedPointControllers = [];
+    this._pointsModel = pointsModel;
   }
 
   createArrPoints(maxDay) {
@@ -96,29 +97,11 @@ export default class TripController {
   }
 
   _onDataChange(pointController, id, newData) {
-    const newAllPoints = this.allPoints.slice();
+    const isSuccess = this._pointsModel.updatePoint(id, newData);
 
-
-    if (!id) {
-      return;
+    if (isSuccess) {
+      pointController.render(newData);
     }
-
-    let i = 0;
-    let j = 0;
-
-    newAllPoints.forEach((item, index1) => {
-      item.forEach((it, index2) => {
-        if (it.id === id) {
-          it = newData;
-          i = index1;
-          j = index2;
-        }
-      });
-    });
-
-    this.allPoints[i][j] = newData;
-
-    pointController.render(this.allPoints[i][j]);
   }
 
   _onViewChange() {
@@ -126,8 +109,10 @@ export default class TripController {
   }
 
   render(maxDay) {
+    const points = this._pointsModel.getPoints();
+
     for (let i = 0; i < maxDay; i++) {
-      arrStartNamePoint.push(this.allPoints[i][0].city);
+      arrStartNamePoint.push(points[i][0].city);
       const siteTripDaysItem = document.createElement(`li`);
       const siteTripEventsList = document.createElement(`ul`);
       siteTripDaysItem.classList.add(`trip-days__item`);
@@ -137,10 +122,10 @@ export default class TripController {
       this.days.appendChild(siteTripDaysItem);
       siteTripDaysItem.appendChild(siteTripEventsList);
       render(siteTripDaysItem, new DayInfo(i), RenderPosition.AFTERBEGIN);
-      const newTasks = renderPoints(siteTripEventsList, this.allPoints[i], this._onDataChange, this._onViewChange);
+      const newTasks = renderPoints(siteTripEventsList, points[i], this._onDataChange, this._onViewChange);
       this._showedPointControllers = this._showedPointControllers.concat(newTasks);
       for (let j = 0; j < NUMBER_POINTS; j++) {
-        sumPrice += this.allPoints[i][j].price;
+        sumPrice += points[i][j].price;
       }
     }
 
@@ -155,7 +140,7 @@ export default class TripController {
     }
 
     this.sort.setSortTypeChangeHandler((sortType) => {
-      let allPoints = generateAllPoints(this.allPoints);
+      let allPoints = generateAllPoints(points);
       const showingTasksCount = allPoints.length;
       const sortedTasks = getSortedTasks(allPoints, sortType, 0, showingTasksCount);
       const siteTripDaysItem = document.createElement(`li`);
