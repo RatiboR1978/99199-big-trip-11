@@ -178,6 +178,11 @@ export default class TripEventEdit extends AbstractSmartComponent {
     this._submitHandler = cb;
   }
 
+  setDeleteButtonClickHandler(handler) {
+    this.getElement().querySelector(`.event__reset-btn`).addEventListener(`click`, handler);
+    this._deleteButtonClickHandler = handler;
+  }
+
   _subscribeOnEvents() {
     const element = this.getElement();
 

@@ -14,6 +14,34 @@ export default class PointsModel {
     this._callHandlers(this._dataChangeHandlers);
   }
 
+  removePoint(id) {
+    const newAllPoints = this._points.slice();
+
+    if (!id) {
+      return false;
+    }
+
+    let i = 0;
+    let j = 0;
+
+    newAllPoints.forEach((item, index1) => {
+      item.forEach((it, index2) => {
+        if (it.id === id) {
+          i = index1;
+          j = index2;
+        }
+      });
+    });
+
+    this._points[i].splice(j, 1);
+
+    return true;
+  }
+
+  addPoint(point) {
+    this._points = [].concat(point, this._points);
+  }
+
   updatePoint(id, point) {
     const newAllPoints = this._points.slice();
 

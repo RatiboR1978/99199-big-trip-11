@@ -9,6 +9,7 @@ import {
 } from "./../utils/common.js";
 import {
   render,
+  remove,
   RenderPosition,
   replace
 } from "../../src/utils/render.js";
@@ -45,10 +46,12 @@ const createNewPoint = (evt, id) => {
   return object;
 };
 
-const Mode = {
+export const Mode = {
   DEFAULT: `default`,
   EDIT: `edit`,
 };
+
+export const EmptyPoint = {};
 
 export default class PointController {
   constructor(container, onDataChange, onViewChange) {
@@ -78,8 +81,13 @@ export default class PointController {
       this._replaceEditToTripEvent();
       const newPoint = createNewPoint(evt, this._pointComponent.data.id);
 
-      this._onDataChange(this, this._pointComponent.data.id, newPoint);
+      this._onDataChange(this, this._pointComponent, newPoint);
       document.removeEventListener(`keydown`, this._onEscKeyDown);
+    });
+
+    this._pointEditComponent.setDeleteButtonClickHandler((evt) => {
+      evt.preventDefault();
+      this._onDataChange(this, this._pointComponent, null);
     });
 
 
@@ -89,6 +97,12 @@ export default class PointController {
     } else {
       render(this._container, this._pointComponent, RenderPosition.BEFOREEND);
     }
+  }
+
+  destroy() {
+    remove(this._pointEditComponent);
+    remove(this._pointComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 
   setDefaultView() {
